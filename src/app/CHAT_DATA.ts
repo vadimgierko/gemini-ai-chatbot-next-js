@@ -1,4 +1,4 @@
-import { History } from "./components/ChatForm";
+import { History } from "./components/Chat";
 
 export const chatData: History = [
 	{

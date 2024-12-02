@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
+import Layout from "./components/Layout";
 
 export const metadata: Metadata = {
 	authors: [{ name: "Vadim Gierko", url: "https://vadimgierko.com" }],
@@ -24,7 +25,11 @@ export default function RootLayout({
 					href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/vs2015.css"
 				/>
 			</head>
-			<body>{children}</body>
+			<body>
+				<Layout>
+					{children}
+				</Layout>
+			</body>
 		</html>
 	);
 }
