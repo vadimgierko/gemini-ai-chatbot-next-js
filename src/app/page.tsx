@@ -1,13 +1,5 @@
-import { Container } from "react-bootstrap";
-import ChatForm from "./components/ChatForm";
+import Chat from "./components/Chat";
 
 export default function Home() {
-	return (
-		<Container>
-			<main>
-				<ChatForm />
-			</main>
-			<footer></footer>
-		</Container>
-	);
+	return <Chat />
 }
