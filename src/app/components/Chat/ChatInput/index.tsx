@@ -21,6 +21,7 @@ export default function ChatInput({
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="Ask Gemini AI about anything 😎"
+                required
             />
             <Button
                 type="submit"

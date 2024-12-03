@@ -1,7 +1,6 @@
 "use client";
 
-import { chatData } from "@/app/CHAT_DATA";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 
@@ -13,10 +12,12 @@ interface HistotyChunk {
 export type History = HistotyChunk[];
 
 export default function Chat() {
-    const [history, setHistory] = useState<History>(chatData); // [] || chatData
+    const [history, setHistory] = useState<History>([]); // [] || chatData
 
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
+
+    const scrollToMessageRef = useRef<HTMLDivElement | null>(null);
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -58,12 +59,24 @@ export default function Chat() {
 
     useEffect(() => {
         console.log(history);
-    }, [history]);
+
+        if (scrollToMessageRef && scrollToMessageRef.current) {
+            scrollToMessageRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+    }, [history, scrollToMessageRef]);
 
     return (
         <>
             <ChatMessages
-                history={history}
+                history={
+                    loading
+                        ? [
+                            ...history,
+                            { role: "user", parts: [{ text: input }] },
+                            { role: "model", parts: [{ text: "Loading..." }] }
+                        ]
+                        : history}
+                ref={scrollToMessageRef}
             />
 
             <ChatInput
