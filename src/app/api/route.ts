@@ -9,10 +9,14 @@ export async function POST(request: NextRequest) {
 	}
 
 	const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-	const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
 	try {
-		const { prompt, history } = await request.json();
+		const { prompt, history, systemInstruction } = await request.json();
+		// init model here to get potential systemInstruction:
+		const model = genAI.getGenerativeModel({
+			model: "gemini-1.5-flash",
+			systemInstruction,
+		});
 
 		//===========================================
 
