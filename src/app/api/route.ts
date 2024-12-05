@@ -1,28 +1,18 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
 import { NextRequest } from "next/server";
+import { getChat, getModel } from "../lib/model";
 
 export async function POST(request: NextRequest) {
-	const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
-	if (!GEMINI_API_KEY) {
-		return Response.json({ message: "No API KEY..." }, { status: 500 });
-	}
-
-	const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
-
 	try {
-		const { prompt, history, systemInstruction } = await request.json();
-		// init model here to get potential systemInstruction:
-		const model = genAI.getGenerativeModel({
-			model: "gemini-1.5-flash",
-			systemInstruction,
-		});
+		const { prompt, systemInstruction } = await request.json();
+
+		const model = getModel(systemInstruction);
+
+		if (!model) throw new Error("No model...");
 
 		//===========================================
 
-		const chat = model.startChat({
-			history,
-		});
+		const chat = await getChat(model);
+
 		const result = await chat.sendMessage(prompt);
 		//============================================
 		const message = result.response.text();

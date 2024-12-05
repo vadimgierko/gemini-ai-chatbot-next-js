@@ -12,7 +12,7 @@ interface HistotyChunk {
 export type History = HistotyChunk[];
 
 export default function Chat() {
-	const [history, setHistory] = useState<History>([]); // [] || chatData
+	const [history, setHistory] = useState<History>([]); // [] || TEMPLATE_CHAT_HISTORY
 
 	const [input, setInput] = useState("");
 	const [loading, setLoading] = useState(false);
@@ -21,7 +21,7 @@ export default function Chat() {
 		| string
 		// | Part | Content
 		| undefined
-	>(undefined);
+	>(undefined); // TEMPLATE_SYSTEM_INSTRUCTION
 
 	const scrollToMessageRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,7 +39,7 @@ export default function Chat() {
 				headers: {
 					"Content-Type": "application/json",
 				},
-				body: JSON.stringify({ prompt: input, history, systemInstruction }),
+				body: JSON.stringify({ prompt: input, systemInstruction }),
 			});
 
 			if (!res.ok) {
@@ -48,7 +48,7 @@ export default function Chat() {
 			}
 
 			const data = await res.json();
-			console.log(data.message);
+			// console.log(data.message);
 			setHistory([
 				...history,
 				{ role: "user", parts: [{ text: input }] },
@@ -75,12 +75,10 @@ export default function Chat() {
 	}, []);
 
 	useEffect(() => {
-		console.log(history);
-
 		if (scrollToMessageRef && scrollToMessageRef.current) {
 			scrollToMessageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
-	}, [history, scrollToMessageRef]);
+	}, [scrollToMessageRef]);
 
 	return (
 		<>
