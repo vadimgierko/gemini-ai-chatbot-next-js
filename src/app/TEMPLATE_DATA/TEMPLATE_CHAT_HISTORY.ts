@@ -1,6 +1,6 @@
-import { History } from "./components/Chat";
+import { History } from "../components/Chat";
 
-export const chatData: History = [
+export const TEMPLATE_CHAT_HISTORY: History = [
 	{
 		role: "user",
 		parts: [
