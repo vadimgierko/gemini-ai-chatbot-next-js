@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Layout from "./components/Layout";
+import { ChatProvider } from "./context/useChat";
 
 export const metadata: Metadata = {
-	authors: [{ name: "Vadim Gierko", url: "https://vadimgierko.com" }],
-	title: "Gemini AI Chat Next.js",
-	description: "Gemini AI chat written in TypeScript & Next.js",
+	authors: [{ name: "Vadim Gierko", url: "https://github.com/vadimgierko" }],
+	title: "Gemini AI Chat App Next.js",
+	description:
+		"Gemini AI Chat App written in Next.js 15+, React 19 & TypeScript 5+",
 };
 
 export default function RootLayout({
@@ -26,9 +28,9 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<Layout>
-					{children}
-				</Layout>
+				<ChatProvider>
+					<Layout>{children}</Layout>
+				</ChatProvider>
 			</body>
 		</html>
 	);

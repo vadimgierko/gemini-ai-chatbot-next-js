@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getChat, getModel } from "../lib/model";
+import { getChat, getModel } from "@/lib/model";
 
 export async function POST(request: NextRequest) {
 	try {
