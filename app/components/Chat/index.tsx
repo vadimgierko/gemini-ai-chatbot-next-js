@@ -3,21 +3,15 @@
 import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-
-interface HistotyChunk {
-	role: "user" | "model";
-	parts: { text: string }[];
-}
-
-export type History = HistotyChunk[];
+import useChat from "@/context/useChat";
 
 export default function Chat() {
-	const [history, setHistory] = useState<History>([]); // [] || TEMPLATE_CHAT_HISTORY
+	const { history, setHistory, systemInstruction } = useChat();
 
 	const [input, setInput] = useState("");
 	const [loading, setLoading] = useState(false);
 
-	const [systemInstruction, setSystemInstruction] = useState<
+	const [] = useState<
 		| string
 		// | Part | Content
 		| undefined
@@ -48,31 +42,20 @@ export default function Chat() {
 			}
 
 			const data = await res.json();
-			// console.log(data.message);
-			setHistory([
-				...history,
+
+			setHistory((prevHistory) => [
+				...prevHistory,
 				{ role: "user", parts: [{ text: input }] },
 				{ role: "model", parts: [{ text: data.message }] },
 			]);
 
 			setInput("");
-		} catch (error) {
-			console.error("An error occurred while fetching the response:", error);
+		} catch (error: unknown) {
+			console.error("Error generating content:", error);
 		} finally {
 			setLoading(false);
 		}
 	};
-
-	// ask user about system instruction before chat init:
-	useEffect(() => {
-		const systemInstructionPrompt = prompt(
-			"Provide system instruction/context for AI if you want to:"
-		);
-
-		if (systemInstructionPrompt) {
-			setSystemInstruction(systemInstructionPrompt);
-		}
-	}, []);
 
 	useEffect(() => {
 		if (scrollToMessageRef && scrollToMessageRef.current) {
@@ -82,20 +65,6 @@ export default function Chat() {
 
 	return (
 		<>
-			{systemInstruction && (
-				<p>
-					*Provided system instruction:
-					<br />
-					<strong>
-						<em>{systemInstruction}</em>
-					</strong>
-					<br />
-					<small>
-						TIP: To change the instruction, refresh the page and start a new
-						chat.
-					</small>
-				</p>
-			)}
 			<ChatMessages
 				history={
 					loading
