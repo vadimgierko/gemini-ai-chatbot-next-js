@@ -1,3 +1,17 @@
+- decide what the subdomain the app should be deployed on
+  - `[app-name].vadimgierko.com` OR
+  - `[app-name]/apps.vadimgierko.com`
+  - should the app name be just `ai-chatbot` OR have tech stack in it?
+- update `package.json` & other info with the new repo link & name
+- update About
+- get rid of API routes, but save them as the example somewhere
+- consider invoking server function `getChatMessage()` as form action in `<ChatInput />` instead of `onClick`
+  - [see docs](https://nextjs.org/docs/app/getting-started/updating-data#forms)
+  - check how `formData` works [see docs](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)
+- use `useActionState` [see docs](https://nextjs.org/docs/app/getting-started/updating-data#showing-a-pending-state) instead of manually setting loading state.
+
+---
+
 - ## private features
   - implement current chat features as `temporary chat`
     - doesn't appear in `chats history`
