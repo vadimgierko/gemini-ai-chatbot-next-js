@@ -3,10 +3,10 @@
 import { getChat, getModel } from "./model";
 
 export default async function getChatMessage({
-	input,
+	prompt,
 	systemInstruction,
 }: {
-	input: string;
+	prompt: string;
 	systemInstruction: string | undefined;
 }) {
 	try {
@@ -16,10 +16,8 @@ export default async function getChatMessage({
 
 		const chat = await getChat(model);
 
-		const result = await chat.sendMessage(input);
-
+		const result = await chat.sendMessage(prompt);
 		const message = result.response.text();
-
 		return message;
 	} catch (error: unknown) {
 		console.error("Error generating content:", error);

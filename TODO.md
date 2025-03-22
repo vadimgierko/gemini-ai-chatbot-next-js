@@ -9,6 +9,16 @@
   - [see docs](https://nextjs.org/docs/app/getting-started/updating-data#forms)
   - check how `formData` works [see docs](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)
 - use `useActionState` [see docs](https://nextjs.org/docs/app/getting-started/updating-data#showing-a-pending-state) instead of manually setting loading state.
+- enable streaming chat messages [see docs](https://ai.google.dev/gemini-api/tutorials/web-app?lang=node#stream-response):
+  👇 DOESN'T WORK !!! 
+  ```js
+  const result = await chat.sendMessageStream(msg);
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    res.write(chunkText);
+  }
+  ```
+  SEE https://github.com/vercel/next.js/discussions/67501
 
 ---
 
