@@ -4,8 +4,12 @@ import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import useChat from "@/context/useChat";
+import useUser from "@/context/useUser";
+import { Button } from "react-bootstrap";
+import { signInWithGoogle } from "@/lib/signInWithGoogle";
 
 export default function Chat() {
+	const { user } = useUser();
 	const { history, setHistory, systemInstruction } = useChat();
 
 	const [input, setInput] = useState("");
@@ -13,24 +17,32 @@ export default function Chat() {
 
 	const scrollToMessageRef = useRef<HTMLDivElement | null>(null);
 
-	const handleSubmit = async (event: React.FormEvent) => {
+	async function handleSubmit(event: React.FormEvent) {
 		event.preventDefault();
+
+		if (!user) return alert("You need to be logged with Google Account to use the chat for free.");
 
 		if (!input.trim().length)
 			return alert("You cannot send empty message! Type something!");
 
-		setLoading(true);
-		setHistory((prevHistory) => [
-			...prevHistory,
-			{ role: "user", parts: [{ text: input }] },
-			{ role: "model", parts: [{ text: "" }] },
-		]);
+		const savedUserPrompt = input;
 
 		try {
-			const res = await fetch("/api/stream", {
+			setLoading(true);
+			setInput("");
+			setHistory((prevHistory) => [
+				...prevHistory,
+				{ role: "user", parts: [{ text: input }] },
+				{ role: "model", parts: [{ text: "" }] },
+			]);
+
+			const token = await user.getIdToken(true);
+
+			const res = await fetch("/api/chat/stream", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
+					"Authorization": `Bearer ${token}`,
 				},
 				body: JSON.stringify({ prompt: input, systemInstruction }),
 			});
@@ -57,16 +69,18 @@ export default function Chat() {
 					setHistory((prevHistory) => {
 						const updatedHistory = [...prevHistory];
 
-						updatedHistory[updatedHistory.length - 1].parts[0].text =
+						const chatAnswer = updatedHistory[updatedHistory.length - 1];
+						chatAnswer.parts[0].text =
 							botMessage;
 
 						return updatedHistory;
 					});
 				}
 			}
-			setInput("");
 		} catch (error: unknown) {
-			console.error("Error generating content:", error);
+			alert(`Error generating content: ${error}`);
+			// recreate user's prompt:
+			setInput(savedUserPrompt);
 		} finally {
 			setLoading(false);
 		}
@@ -78,19 +92,23 @@ export default function Chat() {
 		}
 	}, [scrollToMessageRef]);
 
+	if (!user) return (
+		<p className="text-center">
+			Sign in with Google to use chat for free 👉{" "}
+			<Button variant="outline-primary" onClick={signInWithGoogle}>
+				Sign in with Google
+			</Button>
+			<br />
+			<small>
+				This is needed to prevent abusing app API routes by malicious users.
+			</small>
+		</p>
+	)
+
 	return (
 		<>
 			<ChatMessages
-				history={
-					// loading
-					// 	? [
-					// 			...history,
-					// 			{ role: "user", parts: [{ text: input }] },
-					// 			{ role: "model", parts: [{ text: "Loading..." }] },
-					// 	  ]
-					// 	: history
-					history
-				}
+				history={history}
 				ref={scrollToMessageRef}
 			/>
 

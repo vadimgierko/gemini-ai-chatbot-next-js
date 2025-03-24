@@ -8,6 +8,7 @@ import {
 	SetStateAction,
 	useEffect,
 } from "react";
+import useUser from "./useUser";
 
 const ChatContext = createContext<{
 	history: History;
@@ -39,6 +40,7 @@ interface HistotyChunk {
 export type History = HistotyChunk[];
 
 export function ChatProvider({ children }: ChatProps) {
+	const {user} = useUser();
 	const [history, setHistory] = useState<History>([]); // [] || TEMPLATE_CHAT_HISTORY
 
 	const [systemInstruction, setSystemInstruction] = useState<
@@ -57,9 +59,13 @@ export function ChatProvider({ children }: ChatProps) {
 		}
 	}
 
+	// CLEAR STATE AFTER USER LOGGED OUT:
 	useEffect(() => {
-		console.log("system instruction:", systemInstruction);
-	}, [systemInstruction]);
+		if (!user) {
+			setHistory([]);
+			setSystemInstruction(undefined);
+		}
+	}, [user]);
 
 	const value = {
 		history,

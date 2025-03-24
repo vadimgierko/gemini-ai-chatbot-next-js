@@ -1,5 +1,5 @@
-import { Button, Form, InputGroup, Spinner } from "react-bootstrap";
-import { BsSend } from "react-icons/bs";
+import { Button, Form, InputGroup } from "react-bootstrap";
+import { BsSend, BsStopFill } from "react-icons/bs";
 
 interface ChatInputProps {
 	loading: boolean;
@@ -34,7 +34,13 @@ export default function ChatInput({
 					style={{ width: "3em" }}
 					onClick={handleSubmit}
 				>
-					{loading ? <Spinner /> : <BsSend />}
+					{
+					loading ?
+					// <Spinner />
+					<BsStopFill />
+
+					: <BsSend />
+					}
 				</Button>
 			</InputGroup>
 		</Form>
