@@ -3,6 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Layout from "./components/Layout";
 import { ChatProvider } from "./context/useChat";
+import { UserProvider } from "./context/useUser";
 
 export const metadata: Metadata = {
 	authors: [{ name: "Vadim Gierko", url: "https://github.com/vadimgierko" }],
@@ -28,9 +29,11 @@ export default function RootLayout({
 				/>
 			</head>
 			<body>
-				<ChatProvider>
-					<Layout>{children}</Layout>
-				</ChatProvider>
+				<UserProvider>
+					<ChatProvider>
+						<Layout>{children}</Layout>
+					</ChatProvider>
+				</UserProvider>
 			</body>
 		</html>
 	);

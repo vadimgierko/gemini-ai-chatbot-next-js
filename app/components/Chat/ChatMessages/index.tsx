@@ -3,6 +3,8 @@ import rehypeHighlight from "rehype-highlight";
 import remarkGfm from "remark-gfm";
 import { History } from "@/context/useChat";
 import { Spinner } from "react-bootstrap";
+import useUser from "@/context/useUser";
+import { BsPersonCircle } from "react-icons/bs";
 
 export default function ChatMessages({
 	history,
@@ -11,6 +13,8 @@ export default function ChatMessages({
 	history: History;
 	ref: React.RefObject<HTMLDivElement | null>;
 }) {
+	const { user } = useUser();
+
 	return (
 		<div
 			style={{
@@ -23,13 +27,28 @@ export default function ChatMessages({
 				<div
 					key={i}
 					ref={i === history.length - 1 ? ref : null}
-					className={`message ${
-						h.role === "user" ? "border p-2 my-2 rounded w-75 ms-auto" : ""
-					}`}
+					className={`message ${h.role === "user" ? "border p-2 my-2 rounded w-75 ms-auto" : ""
+						}`}
 					style={{
 						backgroundColor: h.role === "user" ? "rgb(56, 56, 56)" : "",
 					}}
 				>
+					{
+						user && h.role === "user"
+							? user.photoURL
+								? (
+									<img
+										width={30}
+										height={30}
+										src={user.photoURL}
+										style={{ borderRadius: "50%", marginRight: "1em" }}
+										alt={`${user.displayName} avatar`}
+									/>
+								) : (
+									<BsPersonCircle />
+								)
+							: null
+					}
 					{h.role === "model" && h.parts[0].text === "Loading..." ? (
 						<Spinner />
 					) : (
