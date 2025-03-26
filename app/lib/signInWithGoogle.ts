@@ -13,6 +13,8 @@ export async function signInWithGoogle() {
 			const user = result.user;
 			// IdP data available using getAdditionalUserInfo(result)
 			console.log({ user });
+
+			// add user 
 		})
 		.catch((error) => {
 			console.error(error);

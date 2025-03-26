@@ -1,26 +1,25 @@
+# GEMINI CHATBOT TODO
+
 ## APP'S NAME
 - decide
   - what the subdomain the app should be deployed on
     - `[app-name].vadimgierko.com` OR
     - `[app-name].apps.vadimgierko.com` OR
-    - `[app-name].apps.vadimgierko.com`
+    - `[app-name].app.vadimgierko.com`
   - should the app name be
     - just `ai-chatbot` OR
-    - have tech stack in it, like `gemini-ai-chat` OR `gemini-ai-chat-next-js`?
+    - have tech stack in it, like
+      - `gemini-ai-chat` OR
+      - `gemini-ai-chat-next-js`?
 - update `package.json` & other info with the new repo link & name
-- update About
-- consider invoking server function `getChatMessage()` as form action in `<ChatInput />` instead of `onClick`
-  - [see docs](https://nextjs.org/docs/app/getting-started/updating-data#forms)
-  - check how `formData` works [see docs](https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData)
-- use `useActionState` [see docs](https://nextjs.org/docs/app/getting-started/updating-data#showing-a-pending-state) instead of manually setting loading state.
 
----
+## ABOUT PAGE
 
-- ## private features
-  - implement current chat features as `temporary chat`
-    - doesn't appear in `chats history`
-    - doesn't use or modify `app memory`
-    - still uses `system instructions` of general model
+<mark>style about page as in `Linky Notes`</mark>
+
+## CHATS CRUD
+
+- enable chats CRUD using Firebase   
   - enable storing models' settings & chat history in `local storage` as extra private feature (no storing in db/cloud)
 - ## `/models` (separate models instances with different `system instructions` & `context` & `tuning` later)
   - ### `/chats` (inside models)
