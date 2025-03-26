@@ -1,16 +1,13 @@
-import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
 import Layout from "./components/Layout";
 import { ChatProvider } from "./context/useChat";
 import { UserProvider } from "./context/useUser";
+import { generateRouteMetadata } from "./lib/metadata";
 
-export const metadata: Metadata = {
-	authors: [{ name: "Vadim Gierko", url: "https://github.com/vadimgierko" }],
-	title: "Gemini AI Chat App Next.js",
-	description:
-		"Gemini AI Chat App written in Next.js 15+, React 19 & TypeScript 5+",
-};
+export const metadata = generateRouteMetadata({
+	isPrivate: false, routeTitle: "", slug: ""
+});
 
 export default function RootLayout({
 	children,

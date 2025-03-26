@@ -28,9 +28,9 @@ export default function Navbar() {
 						</span>
 					</div>
 					<div>
-						<Link href="/">chat</Link> |{" "}
+						<Link href="/chat/temporary">chat</Link> |{" "}
 						<Link href="/system-instruction">context</Link> |{" "}
-						<Link href="/about">about</Link>
+						<Link href="/">about</Link>
 
 						{/* {
 							!user && <Button variant="outline-primary" onClick={signInWithGoogle}>

@@ -1,5 +1,8 @@
 {
-  "name": "gemini-ai-chat-next-js-ts",
+  "name": "gemini-ai-chat-next-js",
+  "homepage": "https://gemini-ai-chat.vadimgierko.com",
+  "author": "Vadim Gierko",
+  "keywords": ["Gemini", "Gemini API", "Chatbot", "AI Chatbot", "Next.js", "React", "TypeScript", "Firebase", "Vadim", "Gierko", "Vadim Gierko"],
   "version": "0.1.0",
   "private": true,
   "scripts": {

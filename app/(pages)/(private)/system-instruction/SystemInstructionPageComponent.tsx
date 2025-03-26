@@ -3,9 +3,12 @@
 import useChat from "@/context/useChat";
 import { Button } from "react-bootstrap";
 
-export default function SystemInstructionsPage() {
-	const { systemInstruction, promptSystemInstruction, setSystemInstruction } =
-		useChat();
+export default function SystemInstructionsPageComponent() {
+	const {
+		systemInstruction,
+		promptSystemInstruction,
+		setSystemInstruction
+	} = useChat();
 
 	return (
 		<>
