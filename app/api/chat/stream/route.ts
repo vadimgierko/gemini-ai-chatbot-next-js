@@ -1,5 +1,5 @@
 import { NextRequest } from "next/server";
-import { getChat, getModel } from "@/lib/model";
+import { getChat } from "@/lib/getChat";
 import { adminAuth } from "@/firebaseAdminConfig";
 
 export async function POST(request: NextRequest) {
@@ -20,26 +20,16 @@ export async function POST(request: NextRequest) {
 
 		const { prompt, systemInstruction } = await request.json();
 
-		const model = getModel(systemInstruction);
+		const chat = await getChat({
+			systemInstruction,
+		});
 
-		if (!model) throw new Error("No intialized model...");
+		const result = await chat.sendMessageStream({message: prompt});
 
-		const chat = await getChat(model);
-
-		// USE (UNCOMMENT) THE CODE BELOW
-		// TO GET ========== FULL MESSAGE ============ RESPONSE INSTEAD OF STREAM:
-
-		// const result = await chat.sendMessage(prompt);
-		// const message = result.response.text();
-		// return Response.json({ message });
-
-		// USE THE CODE BELOW TO =========== STREAM ============ AI RESPONSE
-		// INSTEAD OF GETTING FULL MESSAGE AT ONCE (SEE CODE ABOVE):
-		const result = await chat.sendMessageStream(prompt);
 		const stream = new ReadableStream({
 			async start(controller) {
-				for await (const chunk of result.stream) {
-					controller.enqueue(new TextEncoder().encode(chunk.text()));
+				for await (const chunk of result) {
+					controller.enqueue(new TextEncoder().encode(chunk.text));
 				}
 				controller.close();
 			},

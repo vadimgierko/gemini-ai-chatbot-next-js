@@ -2,7 +2,19 @@
   "name": "gemini-ai-chat-next-js",
   "homepage": "https://gemini-ai-chat.vadimgierko.com",
   "author": "Vadim Gierko",
-  "keywords": ["Gemini", "Gemini API", "Chatbot", "AI Chatbot", "Next.js", "React", "TypeScript", "Firebase", "Vadim", "Gierko", "Vadim Gierko"],
+  "keywords": [
+    "Gemini",
+    "Gemini API",
+    "Chatbot",
+    "AI Chatbot",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Firebase",
+    "Vadim",
+    "Gierko",
+    "Vadim Gierko"
+  ],
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -12,7 +24,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@google/generative-ai": "^0.24.0",
+    "@google/genai": "^0.7.0",
     "bootstrap": "^5.3.3",
     "firebase": "^11.5.0",
     "firebase-admin": "^13.2.0",

@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-import useChat from "@/context/useChat";
+import useChat, { History } from "@/context/useChat";
 import useUser from "@/context/useUser";
 import { Button } from "react-bootstrap";
 import { signInWithGoogle } from "@/lib/signInWithGoogle";
@@ -30,11 +30,18 @@ export default function Chat() {
 		try {
 			setLoading(true);
 			setInput("");
-			setHistory((prevHistory) => [
-				...prevHistory,
-				{ role: "user", parts: [{ text: input }] },
-				{ role: "model", parts: [{ text: "" }] },
-			]);
+
+			let updatedHistory: History = [];
+
+			setHistory((prevHistory) => {
+				updatedHistory = [
+					...prevHistory,
+					{ role: "user", parts: [{ text: input }] },
+					// { role: "model", parts: [{ text: "" }] },
+				];
+
+				return updatedHistory;
+			});
 
 			const token = await user.getIdToken(true);
 
@@ -44,13 +51,22 @@ export default function Chat() {
 					"Content-Type": "application/json",
 					"Authorization": `Bearer ${token}`,
 				},
-				body: JSON.stringify({ prompt: input, systemInstruction }),
+				body: JSON.stringify({
+					prompt: input,
+					systemInstruction: systemInstruction || "",
+				}),
 			});
 
 			if (!res.ok) {
 				const errorData = await res.json();
 				throw new Error(errorData.message || "Something went wrong.");
 			}
+
+			// add empty ai response to populate during stream:
+			updatedHistory.push({
+				role: "model",
+				parts: [{ text: "" }]
+			});
 
 			// Read response as a stream
 			const reader = res.body?.getReader();
@@ -65,16 +81,11 @@ export default function Chat() {
 					botMessage += decoder.decode(value, { stream: true });
 
 					// Update UI progressively
+					const chatAnswer = updatedHistory[updatedHistory.length - 1];
+					chatAnswer.parts[0].text =
+						botMessage;
 
-					setHistory((prevHistory) => {
-						const updatedHistory = [...prevHistory];
-
-						const chatAnswer = updatedHistory[updatedHistory.length - 1];
-						chatAnswer.parts[0].text =
-							botMessage;
-
-						return updatedHistory;
-					});
+					setHistory(updatedHistory);
 				}
 			}
 		} catch (error: unknown) {
