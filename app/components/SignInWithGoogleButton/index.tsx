@@ -9,7 +9,7 @@ export default function SignInWithGoogleButton(
     return (
         <Button
             className={className}
-            variant="outline-primary"
+            variant="primary"
             onClick={signInWithGoogle}
         >
             Sign in with Google

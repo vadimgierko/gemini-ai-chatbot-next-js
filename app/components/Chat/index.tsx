@@ -5,8 +5,6 @@ import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
 import useChat, { History } from "@/context/useChat";
 import useUser from "@/context/useUser";
-import { Button } from "react-bootstrap";
-import { signInWithGoogle } from "@/lib/signInWithGoogle";
 
 export default function Chat() {
 	const { user } = useUser();
@@ -102,19 +100,6 @@ export default function Chat() {
 			scrollToMessageRef.current.scrollIntoView({ behavior: "smooth" });
 		}
 	}, [scrollToMessageRef]);
-
-	if (!user) return (
-		<p className="text-center">
-			Sign in with Google to use chat for free 👉{" "}
-			<Button variant="outline-primary" onClick={signInWithGoogle}>
-				Sign in with Google
-			</Button>
-			<br />
-			<small>
-				This is needed to prevent abusing app API routes by malicious users.
-			</small>
-		</p>
-	)
 
 	return (
 		<>

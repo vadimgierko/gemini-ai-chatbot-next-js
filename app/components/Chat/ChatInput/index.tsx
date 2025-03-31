@@ -21,6 +21,7 @@ export default function ChatInput({
 		>
 			<InputGroup>
 				<Form.Control
+					name="user-chat-input"
 					as="textarea"
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
@@ -35,11 +36,11 @@ export default function ChatInput({
 					onClick={handleSubmit}
 				>
 					{
-					loading ?
-					// <Spinner />
-					<BsStopFill />
+						loading ?
+							// <Spinner />
+							<BsStopFill />
 
-					: <BsSend />
+							: <BsSend />
 					}
 				</Button>
 			</InputGroup>
