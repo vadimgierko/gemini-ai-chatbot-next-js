@@ -5,6 +5,7 @@ import { History } from "@/context/useChat";
 import { Spinner } from "react-bootstrap";
 import useUser from "@/context/useUser";
 import { BsPersonCircle } from "react-icons/bs";
+import { SiGooglegemini } from "react-icons/si";
 
 export default function ChatMessages({
 	history,
@@ -30,7 +31,10 @@ export default function ChatMessages({
 					className={`message ${h.role === "user" ? "border p-2 my-2 rounded w-75 ms-auto" : ""
 						}`}
 					style={{
-						backgroundColor: h.role === "user" ? "rgb(56, 56, 56)" : "",
+						backgroundColor: h.role === "user"
+							? "rgb(56, 56, 56)"
+							: "",
+						display: "flex"
 					}}
 				>
 					{
@@ -47,18 +51,20 @@ export default function ChatMessages({
 								) : (
 									<BsPersonCircle />
 								)
-							: null
+							: <SiGooglegemini size={30} className="me-3" />
 					}
-					{h.role === "model" && h.parts[0].text === "Loading..." ? (
-						<Spinner />
-					) : (
-						<Markdown
-							rehypePlugins={[rehypeHighlight]}
-							remarkPlugins={[remarkGfm]}
-						>
-							{h.parts[0].text}
-						</Markdown>
-					)}
+					<div className="message-content">
+						{h.role === "model" && h.parts[0].text === "Loading..." ? (
+							<Spinner />
+						) : (
+							<Markdown
+								rehypePlugins={[rehypeHighlight]}
+								remarkPlugins={[remarkGfm]}
+							>
+								{h.parts[0].text}
+							</Markdown>
+						)}
+					</div>
 				</div>
 			))}
 		</div>

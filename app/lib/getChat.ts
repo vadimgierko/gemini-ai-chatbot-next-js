@@ -49,9 +49,9 @@ export async function getChat({
 		);
 	}
 
-	console.log(
-		chat.getHistory(true)
-	);
+	// console.log(
+	// 	chat.getHistory(true)
+	// );
 
 	return chat
 }

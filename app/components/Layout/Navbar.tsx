@@ -7,6 +7,7 @@ import Link from "next/link";
 import { Container, NavDropdown } from "react-bootstrap";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BsPersonCircle } from "react-icons/bs";
+import { SiGooglegemini } from "react-icons/si";
 
 export default function Navbar() {
 	const { user } = useUser();
@@ -24,19 +25,13 @@ export default function Navbar() {
 				>
 					<div>
 						<span>
-							<strong>Gemini AI Chatbot</strong>
+							<strong><SiGooglegemini /> Gemini AI Chatbot</strong>
 						</span>
 					</div>
 					<div>
 						<Link href="/chat/temporary">chat</Link> |{" "}
 						<Link href="/system-instruction">context</Link> |{" "}
 						<Link href="/">about</Link>
-
-						{/* {
-							!user && <Button variant="outline-primary" onClick={signInWithGoogle}>
-								Sign in with Google
-							</Button>
-						} */}
 
 						{
 							user && <NavDropdown
