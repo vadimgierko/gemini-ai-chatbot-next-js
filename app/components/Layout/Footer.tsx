@@ -1,3 +1,5 @@
+import { BsGithub } from "react-icons/bs";
+
 export default function Footer() {
 	const currYear = new Date().getFullYear();
 
@@ -12,7 +14,9 @@ export default function Footer() {
 				<a
 					href="https://github.com/vadimgierko/gemini-ai-chat-next-js-ts"
 					target="_blank"
-				>{`<code />`}</a>
+				>
+					<BsGithub />
+				</a>
 			</p>
 		</footer>
 	);

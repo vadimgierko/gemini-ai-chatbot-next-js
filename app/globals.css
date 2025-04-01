@@ -3,3 +3,8 @@
   padding: 0;
   margin: 0;
 }
+
+pre {
+  overflow-x: auto;
+  white-space: pre-wrap; /* Wrap long lines while preserving whitespace */
+}

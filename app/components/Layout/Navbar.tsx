@@ -24,14 +24,17 @@ export default function Navbar() {
 					}}
 				>
 					<div>
-						<span>
-							<strong><SiGooglegemini /> Gemini AI Chatbot</strong>
-						</span>
+						<Link href="/" style={{
+							textDecoration: "none",
+							color: "inherit"
+						}}>
+						<SiGooglegemini /> Gemini AI Chatbot
+						</Link>
 					</div>
 					<div>
 						<Link href="/chat/temporary">chat</Link> |{" "}
 						<Link href="/system-instruction">context</Link> |{" "}
-						<Link href="/">about</Link>
+						{/* <Link href="/">about</Link> */}
 
 						{
 							user && <NavDropdown
@@ -43,7 +46,7 @@ export default function Navbar() {
 												width={30}
 												height={30}
 												src={user.photoURL}
-												style={{ borderRadius: "50%", marginLeft: "1em" }}
+												style={{ borderRadius: "50%" }}
 												alt={`${user.displayName} avatar`}
 											/>
 										) : (

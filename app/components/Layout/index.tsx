@@ -9,7 +9,8 @@ export default function Layout({
 }) {
     return (
         <div style={{
-            maxWidth: '100vw',
+            maxWidth: 1024,
+            margin: "auto",
             overflow: 'hidden',
 
             /* Hide the scrollbar in Firefox */
