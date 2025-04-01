@@ -1,5 +1,6 @@
+import { CSSProperties } from "react";
 import ConditionalSignInSection from "./ConditionalSignInSection";
-import { ABOUT_PAGE_CONTENT, APP_NAME } from "./content";
+import { ABOUT_PAGE_CONTENT, AboutPageContent, APP_NAME } from "./content";
 
 export default function AboutPageComponent() {
     return (
@@ -11,62 +12,77 @@ export default function AboutPageComponent() {
                 <hr />
             </header>
 
-            <section className="app-features text-center">
-                <h2>{APP_NAME} Features</h2>
-                <ul
-                    style={{
-                        listStyle: "none",
-                        padding: 0,
-                        display: "flex",
-                        justifyContent: "center",
-                        flexWrap: "wrap"
-                    }}
-                >
-                    {
-                        ABOUT_PAGE_CONTENT
-                            .features
-                            .map(feature => (
-                                <li
-                                    key={feature.title}
-                                    className="text-center p-3"
-                                    style={{ width: 300 }}
-                                >
-                                    <feature.Icon size={50} className="mb-2" />
-                                    <h3>{feature.title}</h3>
-                                    <p>{feature.description}</p>
-                                </li>
-                            ))
-                    }
-                </ul>
-            </section>
+            <ListSection
+                id="app-features"
+                items={ABOUT_PAGE_CONTENT.features}
+                title={`${APP_NAME} Features`}
+                additionalStyles={{ width: 300 }}
+            />
 
-            <section className="app-technologies text-center">
-                <h2 className="">Technologies used to build the app</h2>
-                <hr />
-                <ul
-                    style={{
-                        listStyle: "none",
-                        padding: 0,
-                        display: "flex",
-                        justifyContent: "center",
-                        flexWrap: "wrap"
-                    }}
-                >
-                    {
-                        ABOUT_PAGE_CONTENT
-                            .technologies
-                            .map(technology => (
-                                <li
-                                    key={technology.title}
-                                    className="text-center p-3"
-                                >
-                                    <technology.Icon size={50} className="mb-2" />
-                                    <h3>{technology.title}</h3>
-                                </li>
-                            ))
-                    }
-                </ul>
+            <hr />
+
+            <ListSection
+                id="app-technologies"
+                items={ABOUT_PAGE_CONTENT.technologies}
+                title="Technologies used to build the app"
+            />
+
+            <hr />
+
+            <section id="motivation" className="text-center">
+                <h2>Motivation</h2>
+                <p>I created this app as an open-source showcase of my current full-stack development skills while also aiming to help other developers.</p>
+                <p>Additionally, I wanted to explore the fundamental capabilities and features of the Gemini API.</p>
+                <p>I have many ideas for future enhancements and plan to add new features gradually. However, updates will be made only occasionally, as this project serves as a side diversion from my main private project, which will be published soon.</p>
             </section>
+            
+            <hr />
         </>
+    );
+}
+
+function ListSection({
+    additionalStyles = {},
+    id,
+    items,
+    title
+}: {
+    additionalStyles?: CSSProperties;
+    id: string;
+    items: AboutPageContent["features" | "technologies"];
+    title: string;
+}) {
+    return (
+        <section id={id} className="text-center">
+            <h2>{title}</h2>
+            <ul
+                style={{
+                    listStyle: "none",
+                    padding: 0,
+                    display: "flex",
+                    justifyContent: "center",
+                    flexWrap: "wrap"
+                }}
+            >
+                {
+                    items
+                        .map(item => (
+                            <li
+                                key={item.title}
+                                className="text-center p-3"
+                                style={{ ...additionalStyles }}
+                            >
+                                <item.Icon size={50} className="mb-2" />
+                                <h3>{item.title}</h3>
+                                {
+                                    item.description ?
+                                        <p>{item.description}</p>
+                                        : null
+                                }
+                            </li>
+                        ))
+                }
+            </ul>
+        </section>
     );
 }

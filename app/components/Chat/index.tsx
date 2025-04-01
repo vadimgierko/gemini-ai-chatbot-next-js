@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import ChatInput from "./ChatInput";
 import ChatMessages from "./ChatMessages";
-import useChat, { History } from "@/context/useChat";
+import useChat from "@/context/useChat";
 import useUser from "@/context/useUser";
 
 export default function Chat() {
@@ -29,17 +29,11 @@ export default function Chat() {
 			setLoading(true);
 			setInput("");
 
-			let updatedHistory: History = [];
-
-			setHistory((prevHistory) => {
-				updatedHistory = [
-					...prevHistory,
-					{ role: "user", parts: [{ text: input }] },
-					// { role: "model", parts: [{ text: "" }] },
-				];
-
-				return updatedHistory;
-			});
+			setHistory((prevHistory) => [
+				...prevHistory,
+				{ role: "user", parts: [{ text: input }] },
+				{ role: "model", parts: [{ text: "" }] }, // response placeholder
+			]);
 
 			const token = await user.getIdToken(true);
 
@@ -60,12 +54,6 @@ export default function Chat() {
 				throw new Error(errorData.message || "Something went wrong.");
 			}
 
-			// add empty ai response to populate during stream:
-			updatedHistory.push({
-				role: "model",
-				parts: [{ text: "" }]
-			});
-
 			// Read response as a stream
 			const reader = res.body?.getReader();
 			const decoder = new TextDecoder();
@@ -79,11 +67,16 @@ export default function Chat() {
 					botMessage += decoder.decode(value, { stream: true });
 
 					// Update UI progressively
-					const chatAnswer = updatedHistory[updatedHistory.length - 1];
-					chatAnswer.parts[0].text =
-						botMessage;
+					setHistory((prevHistory) => {
+						const updatedHistory = [...prevHistory];
+						const lastMessage = updatedHistory[updatedHistory.length - 1];
 
-					setHistory(updatedHistory);
+						if (lastMessage.role === "model") {
+							lastMessage.parts[0].text = botMessage;
+						}
+
+						return updatedHistory;
+					});
 				}
 			}
 		} catch (error: unknown) {
