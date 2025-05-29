@@ -2,7 +2,7 @@
 
 import useUser from "@/context/useUser";
 import { ReactNode } from "react";
-import SignInSection from "../SignInSection";
+import SignInSection from "@/components/SignIn/SignInSection";
 
 export default function PrivateRoute({ children }: { children: ReactNode }) {
 	const { user } = useUser();
