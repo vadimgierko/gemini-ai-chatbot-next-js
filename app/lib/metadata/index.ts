@@ -16,7 +16,7 @@ export const DEFAULT_METADATA: Metadata = {
     authors: [{ name: "Vadim Gierko", url: "https://github.com/vadimgierko" }],
     title: "Gemini AI Chatbot",
     description:
-        "AI Chatbot App integrated with Gemini API & Firebase, written in Next.js 15+, React 19 & TypeScript 5+",
+        "Free open source Gemini AI Chatbot App integrated with Firebase written in Next.js, React & TypeScript",
 };
 
 export function generateRouteMetadata({

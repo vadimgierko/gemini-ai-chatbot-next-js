@@ -3,11 +3,6 @@ import "./globals.css";
 import Layout from "./components/Layout";
 import { ChatProvider } from "./context/useChat";
 import { UserProvider } from "./context/useUser";
-import { generateRouteMetadata } from "./lib/metadata";
-
-export const metadata = generateRouteMetadata({
-	isPrivate: false, routeTitle: "", slug: ""
-});
 
 export default function RootLayout({
 	children,

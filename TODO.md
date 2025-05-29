@@ -1,22 +1,5 @@
 # GEMINI CHATBOT TODO
 
-## APP'S NAME
-- decide
-  - what the subdomain the app should be deployed on
-    - `[app-name].vadimgierko.com` OR
-    - `[app-name].apps.vadimgierko.com` OR
-    - `[app-name].app.vadimgierko.com`
-  - should the app name be
-    - just `ai-chatbot` OR
-    - have tech stack in it, like
-      - `gemini-ai-chat` OR
-      - `gemini-ai-chat-next-js`?
-- update `package.json` & other info with the new repo link & name
-
-## ABOUT PAGE
-
-<mark>style about page as in `Linky Notes`</mark>
-
 ## CHATS CRUD
 
 - enable chats CRUD using Firebase   
@@ -47,5 +30,3 @@
   - cache it
 - enable models `tuning`/training
 - `localStorage` => Firebase
-- update `/about`
-- update footer with links
